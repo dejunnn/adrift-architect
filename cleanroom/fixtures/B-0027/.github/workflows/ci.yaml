@@ -1,0 +1,19 @@
+name: build
+
+# ADR-0048: pull_request, not pull_request_target -- no write-scoped token on fork code.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# ADR-0047: the token this workflow carries is stated here.
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: mvn -B verify

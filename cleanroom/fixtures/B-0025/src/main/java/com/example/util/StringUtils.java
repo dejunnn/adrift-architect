@@ -1,0 +1,14 @@
+package com.example.util;
+
+/** ADR-0006: a utility class is final, so it stays a namespace rather than becoming a type. */
+public final class StringUtils {
+
+    private StringUtils() {
+    }
+
+    // VIOLATES ADR-0025: a suppressed warning.
+    @SuppressWarnings("unchecked")
+    public static String trimToEmpty(String value) {
+        return value == null ? "" : value.trim();
+    }
+}

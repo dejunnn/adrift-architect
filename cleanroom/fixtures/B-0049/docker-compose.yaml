@@ -1,0 +1,10 @@
+services:
+  order-service:
+    image: example/order-service:1.4.0
+    ports:
+      - "8080:8080"
+    volumes:
+      # VIOLATES ADR-0049: the Docker socket is host root.
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      SPRING_PROFILES_ACTIVE: local

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: order-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # ADR-0050: endpoints are listed explicitly, never a wildcard.
+        include:
+          - health
+          - info

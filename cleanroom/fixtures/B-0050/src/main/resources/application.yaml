@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: order-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # VIOLATES ADR-0050: every actuator endpoint is published, heapdump and env included.
+        include: "*"

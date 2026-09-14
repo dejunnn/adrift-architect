@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: schema-migrate
+          image: example/migrate:1.4.0
+          # VIOLATES ADR-0045: the init container declares no memory limit.
+      containers:
+        - name: order-service
+          image: example/order-service:1.4.0
+          resources:
+            limits:
+              memory: 512Mi

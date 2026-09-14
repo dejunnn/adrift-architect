@@ -1,0 +1,10 @@
+services:
+  order-service:
+    image: example/order-service:1.4.0
+    ports:
+      - "8080:8080"
+    volumes:
+      # ADR-0049: configuration only. The Docker socket is never mounted.
+      - ./config:/app/config:ro
+    environment:
+      SPRING_PROFILES_ACTIVE: local
