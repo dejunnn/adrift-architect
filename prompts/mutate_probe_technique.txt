@@ -1,0 +1,17 @@
+
+
+## Any technique
+
+Use any technique that fits the decision.
+There is no preferred answer and no list to choose from.
+Whatever genuinely produces the breach is the right answer, and a case where no edit can breach the decision is a real answer too.
+
+Because the technique is yours to pick, each mutation must also say how to perform it:
+
+- form names what kind of edit it is, in your own words.
+- targets names which files or artifacts it changes.
+- howToApply gives the exact command, plus any install step for a dependency it needs.
+- whatChanges says how to confirm the edit landed: which file, which line, or what it now says.
+
+The mutation has to breach the decision as written, not a stricter decision you infer from it.
+Prefer a small edit over one that changes many files.

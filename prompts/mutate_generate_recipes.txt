@@ -1,0 +1,19 @@
+
+
+## OpenRewrite, rewriting the source
+
+Return one declarative OpenRewrite recipe per mutation: a list of sub-recipes, each naming a recipe and supplying its options.
+It runs against a copy of the repository.
+
+Sub-recipes compose.
+A recipe list is applied in order, so several small edits can make one violation, and the same recipe may appear twice with different options.
+
+$vocabulary
+
+Rules:
+- Every type, field and package name you write must appear in the mutation surface.
+  A name that does not resolve rewrites nothing, and the run still reports success.
+- The mutation has to breach the decision as written, not a stricter decision you infer from it.
+  Replacing a forbidden construct with a different construct that has a similar effect is a different decision, not an evasion of this one.
+- Prefer a single, minimal edit over one that changes many files.
+$custom

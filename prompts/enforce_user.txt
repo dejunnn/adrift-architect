@@ -1,0 +1,7 @@
+# ADR
+
+$adr
+
+# Repository fingerprint
+
+$fingerprint

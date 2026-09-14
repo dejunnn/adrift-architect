@@ -1,0 +1,20 @@
+### A catalogue of validated shapes
+
+The rule shapes below compile against ArchUnit 1.3.0.
+For each ArchUnit rule, either select one and supply its parameters, or write a free expression as described above.
+Neither is preferred.
+
+To select one, set catalogueRule to its id, paramsJson to a JSON object of its parameters, and leave rule empty.
+To write your own, leave catalogueRule empty and set rule as usual.
+Never do both for the same rule.
+
+{
+    "id": "<kebab-case-id>", "source": "...", "rule": [],
+    "catalogueRule": "deny-dependency",
+    "paramsJson": "{\"deny.from\": [\"..reporting..\"], \"deny.to\": [\"..scheduler..\"]}"
+}
+
+The catalogue does not cover everything ArchUnit can express.
+Where no shape states the decision, write the expression rather than approximating with one that nearly fits.
+
+$catalogue

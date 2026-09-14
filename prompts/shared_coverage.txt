@@ -1,0 +1,26 @@
+## Coverage
+
+Before writing any $artefact, decompose the ADR into clauses for the individual constraints its decision states and account for every one of them.
+Quote each clause, explain why it is or is not enforceable, and then give the verdict:
+
+COVERED: what you return below enforces the whole clause. List the ids in checkIds. gap is "".
+PARTIAL: they enforce some of it. List them, and put in gap exactly what is not checked.
+UNSUPPORTED: it cannot be checked automatically. checkIds is empty. Say why in reason.
+
+$field records what you evaluated for this clause, not just what you used.
+Recording an option you then rejected is more informative than omitting it. It shows the choice was a decision rather than an oversight, and reason should explain why you rejected it. $options
+
+gap is required. A clause marked PARTIAL with an empty gap is a claim that nothing is missing, which contradicts PARTIAL.
+A clause marked COVERED with a non-empty gap is really PARTIAL.
+
+checkIds is a list because one clause might need more than one $artefact.
+A decision about both source shape and compiled dependencies takes two, and neither alone is COVERED.
+List every one that contributes. The same id may appear under more than one clause.
+
+Account for every clause, including the ones that are not enforceable.
+An ADR with nothing enforceable in it is a real and common answer, but it has to be stated clause by clause.
+A reply with no clauses is indistinguishable from one where decomposition was never attempted.
+Most decision records contain clauses that no tool can check.
+Marking it UNSUPPORTED with a reason is the correct answer, not a failure.
+
+Every id in checkIds must be one you actually return.

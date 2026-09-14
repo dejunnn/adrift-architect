@@ -1,0 +1,35 @@
+
+
+## Output
+
+Return one JSON object and nothing else.
+No prose, no code fences.
+
+$serialisation
+{
+  "clauses": [{"id": "C1", "text": "<quoted from the ADR>", "consideredRecipes": ["<recipe names you weighed>"], "reason": "<why this clause can or cannot be violated by a source rewrite, including why any considered recipe was rejected>", "status": "COVERED | PARTIAL | UNSUPPORTED", "checkIds": ["<mutation ids from below, or empty>"], "gap": "<what part of the clause this mutation does not breach, or empty>"}],
+  "mutations": [{
+    "id": "<kebab-case-id>",
+    "source": "<the ADR sentence this violates>",
+    "expressible": "YES | NO_RECIPE | NOT_IN_REPOSITORY",
+    "why": "<why the edit below is a violation of that sentence, written before the recipe>",
+    "targets": ["<every type, field, package and file name used below, exactly as it appears in the mutation surface>"],
+    "display": "<one line naming the edit>",
+    "recipeList": [{"recipeName": "<recipe name>", "options": [{"name": "<option>", "value": "<value>"}]}],
+    "javaRecipes": [{"className": "<ClassName>", "source": ["<line 1>", "<line 2>"]}]
+  }]
+}
+
+expressible is a real answer, not an escape hatch:
+
+YES: the recipe below violates the decision, and every name in it resolves.
+NO_RECIPE: no source rewrite expresses this decision, not an available recipe and not one you could write. Say what the edit would have had to do. recipeList and javaRecipes are both empty.
+NOT_IN_REPOSITORY: the decision could be violated in principle, but the construct it governs does not exist in this repository. Both lists are empty.
+
+There is no closed vocabulary. If no listed recipe fits, writing one is the expected answer rather than a fallback, so NO_RECIPE is for a decision no source edit can breach at all.
+
+A wrong recipe is worse than an honest NO_RECIPE. A recipe that rewrites nothing leaves the tree unchanged. The check then correctly reports no violation, and that is indistinguishable from a check that failed to detect a real one.
+
+Every name in targets must appear verbatim in the mutation surface, and every name used in recipeList must appear in targets. That is how a recipe aimed at something the repository does not contain is caught before it is run rather than after.
+
+Every id must be unique. Every source must quote the ADR.

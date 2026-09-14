@@ -1,0 +1,84 @@
+
+## Writing a recipe that does not exist
+
+When no available recipe expresses the edit, you may write one.
+Return it in `javaRecipes` and reference it from `recipeList` by its fully-qualified name; the harness compiles it, installs it and makes it resolvable before the recipe runs.
+It must compile. A recipe that does not is reported as a failed run, not as a mutation.
+
+A custom recipe is one Java file. This one is complete and compiles as written; it is here to show the shape, not to answer any decision:
+
+    package adrift.mutator.generated;
+
+    import com.fasterxml.jackson.annotation.JsonProperty;
+    import java.util.ArrayList;
+    import java.util.Collections;
+    import java.util.List;
+    import org.openrewrite.*;
+    import org.openrewrite.java.JavaIsoVisitor;
+    import org.openrewrite.java.tree.J;
+    import org.openrewrite.java.tree.Space;
+    import org.openrewrite.marker.Markers;
+
+    public class MakeClassAbstract extends Recipe {
+
+        @Option(displayName = "Fully qualified class name",
+                description = "The class to change.",
+                example = "com.acme.text.Formatter")
+        private final String fullyQualifiedClassName;
+
+        public MakeClassAbstract(
+                @JsonProperty("fullyQualifiedClassName") String fullyQualifiedClassName) {
+            this.fullyQualifiedClassName = fullyQualifiedClassName;
+        }
+
+        public String getFullyQualifiedClassName() { return fullyQualifiedClassName; }
+
+        @Override public String getDisplayName() { return "Make a class abstract"; }
+        @Override public String getDescription() { return "Adds the abstract modifier."; }
+
+        @Override public TreeVisitor<?, ExecutionContext> getVisitor() {
+            return new JavaIsoVisitor<ExecutionContext>() {
+                @Override
+                public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl,
+                                                                ExecutionContext ctx) {
+                    J.ClassDeclaration c = super.visitClassDeclaration(classDecl, ctx);
+                    if (c.getType() == null
+                            || !fullyQualifiedClassName.equals(c.getType().getFullyQualifiedName())
+                            || J.Modifier.hasModifier(c.getModifiers(), J.Modifier.Type.Abstract)) {
+                        return c;
+                    }
+                    List<J.Modifier> modifiers = new ArrayList<>(c.getModifiers());
+                    modifiers.add(new J.Modifier(Tree.randomId(), Space.SINGLE_SPACE,
+                                                 Markers.EMPTY, null, J.Modifier.Type.Abstract,
+                                                 Collections.emptyList()));
+                    return c.withModifiers(modifiers);
+                }
+            };
+        }
+    }
+
+To insert code rather than change a modifier, build a template and apply it at a coordinate.
+`apply` returns the enclosing element you are visiting, so return its result directly:
+
+    return JavaTemplate.builder("int inserted = 0;")
+            .build()
+            .apply(getCursor(), m.getBody().getCoordinates().firstStatement());
+
+Requirements:
+
+- Package `adrift.mutator.generated`, class name matching the file, `extends Recipe`.
+  Reference it as `adrift.mutator.generated.<ClassName>`.
+- Every `@Option` needs a `@JsonProperty` on the constructor parameter and a public getter.
+  Options bind by parameter name; a missing getter does not error, the recipe is reported as missing an option it was given.
+- Only these packages are on the classpath (rewrite-java 8.89.2), plus the JDK.
+  `import a.b.*;` does not reach `a.b.c`, so import each package you use:
+
+        org.openrewrite            Recipe, Option, ExecutionContext, TreeVisitor, Tree, Preconditions
+        org.openrewrite.java       JavaIsoVisitor, JavaVisitor, JavaTemplate, JavaParser
+        org.openrewrite.java.tree  J, JavaType, Space, Statement, TypeTree
+        org.openrewrite.marker     Markers
+        com.fasterxml.jackson.annotation   JsonProperty
+
+  Import nothing else. A package outside this list does not exist here, whatever it is called.
+- Visitor methods and node types are spelled in full: `visitMethodDeclaration`, `visitVariableDeclarations`, `J.MethodDeclaration`, `J.VariableDeclarations`. There is no `visitClassDecl` and no `J.ClassDecl`.
+  `Statement` and `TypeTree` are siblings of `J` in `org.openrewrite.java.tree`, not nested types, so `J.Statement` does not exist.

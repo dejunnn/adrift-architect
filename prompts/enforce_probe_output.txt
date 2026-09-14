@@ -1,0 +1,14 @@
+
+
+## Output
+
+Return one JSON object and nothing else.
+No prose, no code fences.
+
+{
+  "clauses": [{"id": "C1", "text": "<quoted from the ADR>", "consideredApproaches": ["<what you weighed>"], "reason": "<why, including why any considered approach was rejected>", "status": "COVERED | PARTIAL | UNSUPPORTED", "checkIds": ["<check ids from below, or empty>"], "gap": "<what is not checked, or empty>"}],
+  "checks": [{"id": "<kebab-case-id>", "source": "<the ADR sentence this enforces>", "form": "<what kind of check this is>", "targets": "<what it inspects>", "artifact": ["<line 1>", "<line 2>"], "howToRun": "<exact command, plus any install step>", "whatCountsAsAViolation": "<how to read the output>"}]
+}
+
+Every id must be unique.
+Every source must quote the ADR.

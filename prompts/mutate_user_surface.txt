@@ -1,0 +1,9 @@
+
+# Mutation surface
+
+Every type, field and method this repository declares, by name. The fingerprint describes
+what SHAPE the repository has; this says WHO LIVES in it. A recipe parameter must name
+something from this list. A name that is not here does not resolve, and a recipe that
+resolves to nothing rewrites nothing and is invalid.
+
+$surface

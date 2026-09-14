@@ -1,0 +1,26 @@
+## Semgrep, Java source text
+
+Return one complete Semgrep rule document as YAML: a top-level `rules:` list holding exactly one rule whose `id` equals the check id, with `languages: [java]`, a `message`, and a `severity` that is one of ERROR, WARNING or INFO. These values are uppercase because lowercase is rejected by the schema.
+Semgrep reads one file at a time and resolves no types, so do not write a rule whose violation spans two files.
+
+You scope the rule.
+The runner scans the repository root and adds no filtering of its own, so `paths.include` and `paths.exclude` are yours to set.
+Maven's `target/` is not skipped for you.
+
+Semgrep skips some paths regardless of what you write.
+It ships a built-in ignore list, and it is applied even to a path your `paths.include` names explicitly.
+A directory component named exactly `test`, `tests` or `build` is skipped. This means `src/test/java` and `tests/` are invisible, while `testFixtures`, `testing` and `target` are not, because they are different words.
+
+A rule scoped to a skipped path does not fail loudly; it reports zero findings, which is indistinguishable from compliance.
+
+Example of the expected form.
+It is unrelated to any decision you will be given:
+
+    rules:
+      - id: no-runtime-exec
+        pattern: Runtime.getRuntime().exec(...)
+        message: Starting a process from application code is not permitted.
+        languages: [java]
+        severity: ERROR
+        paths:
+          include: ["src/main/java/**"]

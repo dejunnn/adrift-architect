@@ -1,0 +1,7 @@
+
+
+$archunit
+
+$semgrep
+
+$conftest

@@ -1,0 +1,25 @@
+## Conftest, structured configuration
+
+Return one complete Rego policy: `package main`, `import rego.v1`, and one or more `deny contains msg if { ... }` rules.
+Also return `files`: a list of globs, relative to the repository root, naming the files the policy is evaluated against.
+
+The glob forms available are `<name>` for a file at the root, `<dir>/*.<ext>` for one directory, and `**/<name>.<ext>` for every match at any depth.
+Conftest infers its parser from the file extension, so the globs decide which parser runs.
+Name only files the fingerprint actually shows.
+
+The parsed document is `input`.
+A missing path is UNDEFINED rather than an error, so a rule that walks a path the document does not have simply never fires. Check the shape you expect before asserting on it.
+
+Example of the expected form. It is unrelated to any decision you will be given:
+
+    package main
+
+    import rego.v1
+
+    deny contains msg if {
+        some i
+        input[i].Cmd == "expose"
+        to_number(input[i].Value[0]) < 1024
+        msg := sprintf("port %v is privileged", [input[i].Value[0]])
+    }
+

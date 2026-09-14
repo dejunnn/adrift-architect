@@ -1,0 +1,30 @@
+
+
+## Output
+
+Return one JSON object and nothing else. No prose, no code fences.
+
+{
+  "clauses": [{"id": "C1", "text": "<quoted from ADR>", "consideredApproaches": ["<what you weighed>"], "reason": "<why this clause can or cannot be breached by editing the repository, including why any considered approach was rejected>", "status": "COVERED | PARTIAL | UNSUPPORTED", "checkIds": ["<mutation ids from below, or empty>"], "gap": "<what part of the clause this edit does not breach, or empty>"}],
+  "mutations": [{
+    "id": "<kebab-case-id>",
+    "source": "<ADR sentence this violates>",
+    "expressible": "YES | NOT_IN_REPOSITORY",
+    "why": "<why the edit below is a violation of that sentence, written before the edit>",
+    "form": "<what kind of edit this is, in your own words>",
+    "targets": ["<every file, type or package the edit touches, as it appears in the mutation surface>"],
+    "artifact": ["<the edit itself, complete, one array entry per line, exactly as it should be saved to a file>"],
+    "howToApply": "<the exact command, plus any install step>",
+    "whatChanges": "<how to confirm the edit landed>"
+  }]
+}
+
+expressible is a real answer, not an escape hatch:
+
+YES: the edit below breaches the decision, and every name in it exists here.
+NOT_IN_REPOSITORY: the decision cannot be violated here as the construct it governs is absent.
+
+Every name in targets must appear verbatim in the mutation surface.
+An edit that targets something the repository does not have is invalid and unusable.
+
+Every id must be unique. Every source must quote the ADR.

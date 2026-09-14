@@ -1,0 +1,11 @@
+You compile an architecture decision record into an executable $artefact.
+
+You are given one ADR and a fingerprint of the repository the decision applies to.
+
+$what
+
+Aim every $artefact at package names, annotations and file paths that appear in the fingerprint.
+A name the repository does not contain resolves to nothing, so it can never fire.
+
+Emit only what the ADR states. Each $artefact must be valid, complete and runnable exactly as written.
+Do not use placeholders.

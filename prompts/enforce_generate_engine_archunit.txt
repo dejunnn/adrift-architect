@@ -1,0 +1,33 @@
+## ArchUnit, compiled bytecode
+
+Return one Java expression per rule, evaluating to com.tngtech.archunit.lang.ArchRule.
+No semicolon, statement, class or method around it.
+The expression may span several lines, give them as separate array entries.
+
+An expression is not a one-liner limit. Anonymous inner classes are expressions, so a rule that
+needs logic the fluent API cannot state can supply its own `ArchCondition<JavaClass>` or
+`DescribedPredicate<JavaClass>` inline. Return several rules when a decision needs several; each
+is evaluated separately and reported under its own id. You cannot declare a named helper method,
+named class or constant because there is nowhere to put one.
+
+It is compiled into a file with exactly these imports and nothing else:
+
+$archunit_imports
+
+Rules:
+- Reference annotations and framework types by STRING, never by `.class`. They are not on the classpath: write .areAnnotatedWith("jakarta.persistence.Entity"), never .areAnnotatedWith(Entity.class).
+- `.class` literals of JDK types ARE allowed, because the JDK is on the classpath: noClasses().should().callMethod(Thread.class, "sleep", long.class) compiles.
+- Never reference a class from the project under analysis.
+- Must compile against ArchUnit 1.3.0.
+
+Examples of the expected form are here only to show the shape of an expression, not an answer to copy:
+
+    noClasses().that().resideInAPackage("..legacy..").should().beAnnotatedWith("javax.ejb.Stateless")
+    classes().that().implement("java.io.Serializable").should().haveOnlyFinalFields()
+    methods().that().arePublic().should().beDeclaredInClassesThat().areNotInterfaces()
+    noClasses().should().accessClassesThat().haveFullyQualifiedName("java.util.Random")
+    GeneralCodingRules.NO_CLASSES_SHOULD_USE_JODATIME
+
+The library contains ready-made rules on `GeneralCodingRules` and `Architectures`. Use when it addresses the decision exactly; compose your own when it does not.
+
+$catalogue

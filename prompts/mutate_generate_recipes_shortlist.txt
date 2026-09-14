@@ -1,0 +1,24 @@
+### A catalogue of validated recipes
+
+The vocabulary is open.
+Use a catalogue entry below, another recipe the plugin ships if you know it, or one you write
+yourself. None of the three is preferred.
+
+To use a catalogue entry, set catalogueRecipe to its id and paramsJson to a JSON object of its
+parameters, and leave recipeList empty.
+To write the invocation yourself, leave catalogueRecipe empty and set recipeList as usual.
+Never do both for the same mutation.
+
+    {
+        "id": "<kebab-case-id>", "expressible": "YES",
+        "catalogueRecipe": "retype-reference",
+        "paramsJson": "{\"oldFullyQualifiedTypeName\": \"..\", \"newFullyQualifiedTypeName\": \"..\"}"
+    }
+
+The parameters below are the recipe's own option names, read from the plugin.
+A name that is not listed is not an option, and the mutation will be rejected before it runs.
+
+$catalogue
+No shipped declarative recipe changes a class or field modifier, and none adds an annotation.
+A decision that turns on `final`, on field visibility, or on an annotation being present has no
+entry above and needs a recipe you write.

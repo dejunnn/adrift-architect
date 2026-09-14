@@ -1,0 +1,16 @@
+
+
+## Any technique
+
+Use any technique that fits the decision.
+There is no preferred answer and no list to choose from.
+Whatever genuinely enforces the decision is the right answer, and a case where nothing automated fits the clause is a real answer too.
+
+Because the technique is yours to pick, each check must also say how to run it:
+
+- form names what kind of check it is, in your own words.
+- targets names which files or artifacts it inspects.
+- howToRun gives the exact command, plus any install step for a dependency it needs.
+- whatCountsAsAViolation says how to read the output: which exit code, which text, or which count means the decision was broken.
+
+The check has to test the decision as written, not a stricter decision you infer from it.

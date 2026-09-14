@@ -1,0 +1,17 @@
+
+
+## Output
+
+Return one JSON object and nothing else.
+No prose, no code fences.
+
+$serialisation
+{
+  "clauses": [{"id": "C1", "text": "<quoted from the ADR>", "consideredTools": ["archunit"], "reason": "<why, including why any considered engine was rejected>", "status": "COVERED | PARTIAL | UNSUPPORTED", "checkIds": ["<rule ids from below, or empty>"], "gap": "<what is not checked, or empty>"}],
+  "archunit": [{"id": "<kebab-case-id>", "rule": ["<java expression, one entry per line>"], "source": "<the ADR sentence this enforces>"}],
+  "semgrep":  [{"id": "<kebab-case-id>", "yaml": ["rules:", "  - id: ...", "    ..."], "source": "<the ADR sentence this enforces>"}],
+  "conftest": [{"id": "<kebab-case-id>", "rego": ["package main", "", "deny contains msg if {", "    ...", "}"], "files": ["<glob>"], "source": "<the ADR sentence this enforces>"}]
+}
+
+Every id must be unique across all three lists.
+Every source must quote the ADR.

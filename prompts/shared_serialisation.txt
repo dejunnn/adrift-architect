@@ -1,0 +1,3 @@
+Every $body is an array of lines, one entry per line, with no trailing newline characters.
+Indentation is part of the line.
+Do not put a multi-line body in a single string; an array needs no escaping.

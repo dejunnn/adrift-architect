@@ -1,0 +1,5 @@
+No catalogue is offered.
+You are not shown which recipes the plugin ships, so write the recipe you need and reference it from `recipeList` by its fully-qualified name, as described below.
+
+You may still name a shipped recipe if you are confident it exists and of its option names.
+An option that does not bind is reported as a failed run rather than as a mutation, so a recipe you write, whose options you control exactly, is the safer choice.
