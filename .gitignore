@@ -1,0 +1,27 @@
+# Secrets
+.env
+
+# Third-party repositories
+.dataset/
+
+# Python
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+
+# Temp file for artefacts
+.work/
+
+# Rewritten on every apply and verify
+mutator/openrewrite/src/main/java/adrift/mutator/generated/
+
+# macOS
+.DS_Store
+
+# output
+target/
+logs/validation/
+logs/
+cleanroom/
+adr/
