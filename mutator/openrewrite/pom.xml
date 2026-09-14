@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Custom OpenRewrite recipes for MODIFIER edits.
+
+       Why this module exists at all: `rewrite:discover` lists 52 Java recipes and NOT ONE of
+       them changes a field or class modifier. `final`, and a field's visibility, have no
+       declarative form. Two architectural decisions in the corpus turn on exactly those
+       (a utility class must be final; a non-final field must not be public), so mutating them
+       needs custom visitors — the same conclusion PIT forced for bytecode.
+
+       Installed locally with `mvn install`, then referenced by coordinate from a declarative
+       recipe via -Drewrite.recipeArtifactCoordinates. Nothing is added to the target project. -->
+
+  <groupId>adrift.mutator</groupId>
+  <artifactId>openrewrite-modifiers</artifactId>
+  <version>0.1.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Records constructor parameter NAMES in the class file (a MethodParameters attribute).
+         OpenRewrite binds a declarative recipe's options onto the constructor with Jackson's
+         ParameterNamesModule; without this flag the parameter is called `arg0`, the option key
+         from the YAML matches nothing, and because the mapper disables
+         FAIL_ON_UNKNOWN_PROPERTIES the mismatch is SILENT: the recipe is constructed with a
+         null option and then reported as "is required". -->
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-java</artifactId>
+      <version>8.89.2</version>
+    </dependency>
+  </dependencies>
+</project>
